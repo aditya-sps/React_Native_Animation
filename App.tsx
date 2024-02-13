@@ -11,6 +11,7 @@ import SwipeFlatlist from './src/SwipeFlatlist/SwipeFlatlist';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import BottomTab from './src/BottomTab/BottomTab';
+import DrawerScreen from './src/DrawerScreen/DrawerScreen';
 
 function App(): React.JSX.Element {
   const [visible, setVisible] = useState(false);
@@ -25,6 +26,7 @@ function App(): React.JSX.Element {
             height={400}>
             <Text>Hi</Text>
           </BottomTab> */}
+          <DrawerScreen />
         </View>
       </GestureHandlerRootView>
     </SafeAreaProvider>
