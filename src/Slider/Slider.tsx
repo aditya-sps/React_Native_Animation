@@ -54,12 +54,6 @@ const Slider = () => {
           <GestureDetector gesture={tapGesture}>
             <Animated.View style={[styles.sliderButton, sliderStyle]} />
           </GestureDetector>
-          <View
-            style={{
-              width: '100%',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}></View>
         </View>
       </View>
     </SafeAreaView>
