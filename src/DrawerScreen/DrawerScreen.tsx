@@ -38,11 +38,15 @@ const DrawerScreen = () => {
     <View
       style={[
         styles.fullView,
-        {paddingTop: insets.top, paddingBottom: insets.bottom},
+        {paddingTop: Math.max(insets.top, 15), paddingBottom: insets.bottom},
       ]}>
       <Text>DrawerScreen</Text>
       <Animated.View
-        style={[styles.absoluteView, transformStyle, {paddingTop: insets.top}]}>
+        style={[
+          styles.absoluteView,
+          transformStyle,
+          {paddingTop: Math.max(insets.top, 15)},
+        ]}>
         <TouchableOpacity
           style={{alignSelf: 'flex-start'}}
           onPress={handleClick}>
