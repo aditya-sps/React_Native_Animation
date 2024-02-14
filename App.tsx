@@ -13,6 +13,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import BottomTab from './src/BottomTab/BottomTab';
 import DrawerScreen from './src/DrawerScreen/DrawerScreen';
 import Slider from './src/Slider/Slider';
+import ImageCarousel from './src/ImageCarousel/ImageCarousel';
 
 function App(): React.JSX.Element {
   const [visible, setVisible] = useState(false);
@@ -29,7 +30,8 @@ function App(): React.JSX.Element {
             <Text>Hi</Text>
           </BottomTab> */}
           {/* <DrawerScreen /> */}
-          <Slider />
+          {/* <Slider /> */}
+          <ImageCarousel />
         </View>
       </GestureHandlerRootView>
     </SafeAreaProvider>
