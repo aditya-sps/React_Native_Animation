@@ -1,6 +1,14 @@
-import {StyleSheet, Text, View, SafeAreaView, Dimensions} from 'react-native';
-import React, {useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  Dimensions,
+  I18nManager,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import Animated, {
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
@@ -13,6 +21,7 @@ const Slider = () => {
   const [scrollWidth, setScrollWidth] = useState(0);
   const context = useSharedValue(0);
   const transitionX = useSharedValue(0);
+  const [value, setValue] = useState(0);
 
   const tapGesture = Gesture.Pan()
     .onStart(() => {
@@ -21,12 +30,18 @@ const Slider = () => {
     .onChange(event => {
       let slidingValue = context.value + event.translationX;
 
-      transitionX.value = Math.min(scrollWidth, Math.max(slidingValue, 0));
+      slidingValue = Math.min(scrollWidth, Math.max(slidingValue, 0));
+
+      transitionX.value = slidingValue;
+      runOnJS(handleSliderMove)(slidingValue);
     })
     .onEnd(event => {
       let slidingValue = context.value + event.translationX;
 
-      transitionX.value = Math.min(scrollWidth, Math.max(slidingValue, 0));
+      slidingValue = Math.min(scrollWidth, Math.max(slidingValue, 0));
+
+      transitionX.value = slidingValue;
+      runOnJS(handleSliderMove)(slidingValue);
     });
 
   const sliderStyle = useAnimatedStyle(() => {
@@ -41,6 +56,26 @@ const Slider = () => {
     };
   }, [transitionX.value]);
 
+  // get value on sliding
+  function handleSliderMove(currentPosition) {
+    // Calculate the percentage of the slider's width where the user is dragging
+    const percentage = currentPosition / scrollWidth;
+
+    // Calculate the current value based on the percentage, min, and max values
+    const currentValue = minValue + percentage * (maxValue - minValue);
+
+    // Update the state with the current value
+    setValue(Math.round(currentValue));
+  }
+
+  // get current position based on value
+  // need to handle seperately for max value
+  const getPosition = currentValue => {
+    const currentPosition =
+      ((currentValue - minValue) / (maxValue - minValue)) * scrollWidth;
+    console.log('currentPosition', currentPosition);
+  };
+
   return (
     <SafeAreaView style={{justifyContent: 'center', flex: 1}}>
       <View style={{paddingHorizontal: 20}}>
@@ -52,7 +87,9 @@ const Slider = () => {
           style={styles.width}>
           <Animated.View style={[styles.selectedColor, sliderAreaColor]} />
           <GestureDetector gesture={tapGesture}>
-            <Animated.View style={[styles.sliderButton, sliderStyle]} />
+            <Animated.View style={[styles.sliderButton, sliderStyle]}>
+              <Text style={styles.textStyle}>{value}</Text>
+            </Animated.View>
           </GestureDetector>
         </View>
       </View>
@@ -83,5 +120,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
+  },
+  textStyle: {
+    alignSelf: 'center',
+    zIndex: 10,
+    top: 20,
+    textAlign: 'center',
+    color: 'black',
   },
 });
