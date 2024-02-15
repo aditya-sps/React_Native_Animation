@@ -14,6 +14,7 @@ import BottomTab from './src/BottomTab/BottomTab';
 import DrawerScreen from './src/DrawerScreen/DrawerScreen';
 import Slider from './src/Slider/Slider';
 import ImageCarousel from './src/ImageCarousel/ImageCarousel';
+import CircularProgress from './src/CircularProgress/CircularProgress';
 
 function App(): React.JSX.Element {
   const [visible, setVisible] = useState(false);
@@ -31,7 +32,8 @@ function App(): React.JSX.Element {
           </BottomTab> */}
           {/* <DrawerScreen /> */}
           {/* <Slider /> */}
-          <ImageCarousel />
+          {/* <ImageCarousel /> */}
+          <CircularProgress />
         </View>
       </GestureHandlerRootView>
     </SafeAreaProvider>
