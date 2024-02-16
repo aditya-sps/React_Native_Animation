@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import SwipeFlatlist from './src/SwipeFlatlist/SwipeFlatlist';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -15,9 +15,14 @@ import DrawerScreen from './src/DrawerScreen/DrawerScreen';
 import Slider from './src/Slider/Slider';
 import ImageCarousel from './src/ImageCarousel/ImageCarousel';
 import CircularProgress from './src/CircularProgress/CircularProgress';
+import SplashScreen from 'react-native-splash-screen';
 
 function App(): React.JSX.Element {
   const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   return (
     <SafeAreaProvider>
