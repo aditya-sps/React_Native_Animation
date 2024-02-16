@@ -16,9 +16,11 @@ import Slider from './src/Slider/Slider';
 import ImageCarousel from './src/ImageCarousel/ImageCarousel';
 import CircularProgress from './src/CircularProgress/CircularProgress';
 import SplashScreen from 'react-native-splash-screen';
+import FloatingTextInput from './src/FloatingTextInput';
 
 function App(): React.JSX.Element {
   const [visible, setVisible] = useState(false);
+  const [value, setValue] = useState('');
 
   useEffect(() => {
     SplashScreen.hide();
@@ -38,7 +40,12 @@ function App(): React.JSX.Element {
           {/* <DrawerScreen /> */}
           {/* <Slider /> */}
           {/* <ImageCarousel /> */}
-          <CircularProgress />
+          {/* <CircularProgress /> */}
+          <FloatingTextInput
+            value={value}
+            setValue={setValue}
+            placeholder={'First Name'}
+          />
         </View>
       </GestureHandlerRootView>
     </SafeAreaProvider>
