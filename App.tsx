@@ -18,6 +18,7 @@ import CircularProgress from './src/CircularProgress/CircularProgress';
 import SplashScreen from 'react-native-splash-screen';
 import FloatingTextInput from './src/FloatingTextInput';
 import CustomCurve from './src/CustomCurve';
+import ScrollHeader from './src/ScrollHeader/ScrollHeader';
 
 function App(): React.JSX.Element {
   const [visible, setVisible] = useState(false);
@@ -58,6 +59,8 @@ function App(): React.JSX.Element {
           /> */}
 
           {/* <CustomCurve color={'#f59e42'} /> */}
+
+          {/* <ScrollHeader /> */}
         </View>
       </GestureHandlerRootView>
     </SafeAreaProvider>
