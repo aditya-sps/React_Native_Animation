@@ -20,6 +20,7 @@ import FloatingTextInput from './src/FloatingTextInput';
 import CustomCurve from './src/CustomCurve';
 import ScrollHeader from './src/ScrollHeader/ScrollHeader';
 import MovingButton from './src/MovingButton/MovingButton';
+import TopNavigator from './src/TopNavigation/TopNavigator';
 
 function App(): React.JSX.Element {
   const [visible, setVisible] = useState(false);
@@ -63,7 +64,9 @@ function App(): React.JSX.Element {
 
           {/* <ScrollHeader /> */}
 
-          <MovingButton />
+          {/* <MovingButton /> */}
+
+          <TopNavigator />
         </View>
       </GestureHandlerRootView>
     </SafeAreaProvider>
