@@ -19,6 +19,7 @@ import SplashScreen from 'react-native-splash-screen';
 import FloatingTextInput from './src/FloatingTextInput';
 import CustomCurve from './src/CustomCurve';
 import ScrollHeader from './src/ScrollHeader/ScrollHeader';
+import MovingButton from './src/MovingButton/MovingButton';
 
 function App(): React.JSX.Element {
   const [visible, setVisible] = useState(false);
@@ -61,6 +62,8 @@ function App(): React.JSX.Element {
           {/* <CustomCurve color={'#f59e42'} /> */}
 
           {/* <ScrollHeader /> */}
+
+          <MovingButton />
         </View>
       </GestureHandlerRootView>
     </SafeAreaProvider>
