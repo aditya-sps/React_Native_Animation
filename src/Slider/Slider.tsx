@@ -21,7 +21,7 @@ const Slider = () => {
   const [scrollWidth, setScrollWidth] = useState(0);
   const context = useSharedValue(0);
   const transitionX = useSharedValue(0);
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(4);
 
   const tapGesture = Gesture.Pan()
     .onStart(() => {
