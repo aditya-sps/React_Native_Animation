@@ -5,55 +5,57 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import Animated, {
   Extrapolation,
   interpolate,
+  runOnJS,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-
-const Screen1 = () => {
-  return (
-    <View style={styles.screen1}>
-      <Text>screen1</Text>
-    </View>
-  );
-};
-
-const Screen2 = () => {
-  return (
-    <View style={styles.screen2}>
-      <Text>screen2</Text>
-    </View>
-  );
-};
-
-const Screen3 = () => {
-  return (
-    <View style={styles.screen3}>
-      <Text>screen3</Text>
-    </View>
-  );
-};
+import Screen1 from './Screen1';
+import Screen2 from './Screen2';
+import Screen3 from './Screen3';
 
 const TopNavigator = () => {
   const {width} = Dimensions.get('window');
   const scrollX = useSharedValue(0);
   const scrollViewRef = useRef();
   const insets = useSafeAreaInsets();
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const tabOption = [
-    {name: 'Chat', component: <Screen1 />},
-    {name: 'Contact', component: <Screen2 />},
-    {name: 'Albums', component: <Screen3 />},
+    {
+      name: 'Chat',
+      component: (index: number) => (
+        <Screen1 index={index} activeIndex={activeIndex} />
+      ),
+    },
+    {
+      name: 'Contact',
+      component: (index: number) => (
+        <Screen2 index={index} activeIndex={activeIndex} />
+      ),
+    },
+    {
+      name: 'Albums',
+      component: (index: number) => (
+        <Screen3 index={index} activeIndex={activeIndex} />
+      ),
+    },
   ];
 
   const scroll = useAnimatedScrollHandler(event => {
     scrollX.value = event?.contentOffset?.x;
+    let index = event?.contentOffset?.x / width;
+    let prevIndex = Math.floor(index);
+    index =
+      index > Number(`${prevIndex}.9`) ? Math.ceil(index) : Math.floor(index);
+
+    runOnJS(setActiveIndex)(index);
   });
 
   const tabBarStyle = useAnimatedStyle(() => {
@@ -98,7 +100,7 @@ const TopNavigator = () => {
         pagingEnabled>
         {tabOption?.map((item, index) => (
           <View key={index?.toString()} style={{flex: 1, width: width}}>
-            {item?.component}
+            {item?.component(index)}
           </View>
         ))}
       </Animated.ScrollView>
