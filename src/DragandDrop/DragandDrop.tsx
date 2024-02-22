@@ -6,12 +6,12 @@ import ColumnElement from './ColumnElement';
 const DragandDrop = () => {
   const insets = useSafeAreaInsets();
   const [data, setData] = useState([
-    [1, 2, 3, 4, 5, 6, 7],
-    [11, 12, 13, 14, 15, 16, 17],
-    [21, 22, 23, 24, 25, 26, 27],
-    [31, 32, 33, 34, 35, 36, 37],
-    [41, 42, 43, 44, 45, 46, 47],
-    [51, 52, 53, 54, 55, 56, 57],
+    [1, 2, null, 4, null, 6, 7],
+    [11, null, null, 14, 15, 16, null],
+    [21, 22, null, 24, null, 26, 27],
+    [31, null, 33, null, 35, 36, 37],
+    [null, 42, 43, 44, null, 46, null],
+    [null, 52, 53, 54, 55, null, 57],
   ]);
 
   return (

@@ -32,21 +32,45 @@ const RowElement = ({
     }
   }, [data]);
 
+  // Function to move tile and shift it down
+  // const updateState = (draggedIndexX: number, draggedIndexY: number) => {
+  //   if (data) {
+  //     let newData = [...data];
+  //     let filterArray = newData[rowIndex];
+  //     filterArray = filterArray?.filter((_, index) => index !== columnIndex);
+  //     newData[rowIndex] = filterArray;
+  //     console.log('filterArray', filterArray);
+  //     let appendArray = newData[draggedIndexX];
+  //     appendArray = [
+  //       ...appendArray.slice(0, draggedIndexY),
+  //       value,
+  //       ...appendArray.slice(draggedIndexY),
+  //     ];
+  //     newData[draggedIndexX] = appendArray;
+  //     console.log('appendArray', appendArray);
+  //     setData(newData);
+  //   }
+  // };
+
   const updateState = (draggedIndexX: number, draggedIndexY: number) => {
     if (data) {
       let newData = [...data];
       let filterArray = newData[rowIndex];
-      filterArray = filterArray?.filter((_, index) => index !== columnIndex);
+      filterArray = filterArray?.map((item, index) => {
+        if (index === columnIndex) return null;
+        else return item;
+      });
       newData[rowIndex] = filterArray;
       console.log('filterArray', filterArray);
+
       let appendArray = newData[draggedIndexX];
-      appendArray = [
-        ...appendArray.slice(0, draggedIndexY),
-        value,
-        ...appendArray.slice(draggedIndexY),
-      ];
-      newData[draggedIndexX] = appendArray;
+      appendArray = appendArray?.map((item, index) => {
+        if (index === draggedIndexY) return value;
+        else return item;
+      });
       console.log('appendArray', appendArray);
+
+      newData[draggedIndexX] = appendArray;
       setData(newData);
     }
   };
@@ -77,11 +101,11 @@ const RowElement = ({
       let actualIndexX = rowIndex + 1 + indexX;
       let actualIndexY = columnIndex + 1 + indexY;
       actualIndexY = Math.min(actualIndexY, data?.[actualIndexX]?.length);
-      if (
-        (actualIndexX !== rowIndex && actualIndexY !== columnIndex) ||
-        data?.[actualIndexX]?.[actualIndexY]
-      ) {
+      if (data?.[actualIndexX]?.[actualIndexY] === null) {
         runOnJS(updateState)(actualIndexX, actualIndexY);
+      } else {
+        transitionX.value = 0;
+        transitionY.value = 0;
       }
     });
 
@@ -100,8 +124,15 @@ const RowElement = ({
 
   return (
     <GestureDetector gesture={tapGesture}>
-      <Animated.View style={[styles.box, boxStype]}>
-        <Text>{`Title ${value}`}</Text>
+      <Animated.View
+        style={[
+          styles.box,
+          value
+            ? {backgroundColor: '#f0c03c'}
+            : {backgroundColor: 'transparent'},
+          boxStype,
+        ]}>
+        {value && <Text>{`Title ${value}`}</Text>}
       </Animated.View>
     </GestureDetector>
   );
@@ -113,7 +144,6 @@ const styles = StyleSheet.create({
   box: {
     width: '100%',
     height: 90,
-    backgroundColor: '#f0c03c',
     marginTop: 10,
     justifyContent: 'center',
     alignItems: 'center',
