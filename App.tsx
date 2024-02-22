@@ -21,6 +21,7 @@ import CustomCurve from './src/CustomCurve';
 import ScrollHeader from './src/ScrollHeader/ScrollHeader';
 import MovingButton from './src/MovingButton/MovingButton';
 import TopNavigator from './src/TopNavigation/TopNavigator';
+import DragandDrop from './src/DragandDrop/DragandDrop';
 
 function App(): React.JSX.Element {
   const [visible, setVisible] = useState(false);
@@ -66,7 +67,9 @@ function App(): React.JSX.Element {
 
           {/* <MovingButton /> */}
 
-          <TopNavigator />
+          {/* <TopNavigator /> */}
+
+          <DragandDrop />
         </View>
       </GestureHandlerRootView>
     </SafeAreaProvider>
