@@ -6,8 +6,9 @@ import {
   Text,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Animated, {
+  runOnJS,
   useAnimatedScrollHandler,
   useSharedValue,
 } from 'react-native-reanimated';
@@ -15,9 +16,14 @@ import ImageView from './ImageView';
 
 const ImageCarousel = () => {
   const scrollValue = useSharedValue(0);
+  const screenWidth = Dimensions.get('screen').width;
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const handleScroll = useAnimatedScrollHandler(event => {
-    scrollValue.value = event.contentOffset.x;
+    const scrolledValue = event.contentOffset.x;
+    scrollValue.value = scrolledValue;
+    let currentState = Math.round(scrolledValue / screenWidth);
+    runOnJS(setActiveIndex)(currentState);
   });
   return (
     <SafeAreaView style={{flex: 1, justifyContent: 'center'}}>
@@ -37,6 +43,17 @@ const ImageCarousel = () => {
             />
           ))}
         </Animated.ScrollView>
+        <View style={styles.dotView}>
+          {images?.map((item, index) => (
+            <View
+              style={[
+                styles.dot,
+                activeIndex === index && {backgroundColor: '#f5c071'},
+              ]}
+              key={item?.id}
+            />
+          ))}
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -44,7 +61,22 @@ const ImageCarousel = () => {
 
 export default ImageCarousel;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  dotView: {
+    position: 'absolute',
+    alignSelf: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    bottom: -100,
+  },
+  dot: {
+    height: 10,
+    width: 10,
+    borderRadius: 5,
+    backgroundColor: '#a8a8a8',
+    marginHorizontal: 8,
+  },
+});
 
 const images = [
   {
