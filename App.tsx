@@ -22,6 +22,7 @@ import ScrollHeader from './src/ScrollHeader/ScrollHeader';
 import MovingButton from './src/MovingButton/MovingButton';
 import TopNavigator from './src/TopNavigation/TopNavigator';
 import DragandDrop from './src/DragandDrop/DragandDrop';
+import CalenderView from './src/CalenderView/CalenderView';
 
 function App(): React.JSX.Element {
   const [visible, setVisible] = useState(false);
@@ -69,7 +70,9 @@ function App(): React.JSX.Element {
 
           {/* <TopNavigator /> */}
 
-          <DragandDrop />
+          {/* <DragandDrop /> */}
+
+          <CalenderView />
         </View>
       </GestureHandlerRootView>
     </SafeAreaProvider>
