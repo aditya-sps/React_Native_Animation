@@ -39,19 +39,42 @@ const CalenderView = () => {
     Array(7)
       .fill(1)
       .map((_, index) =>
-        currentWeek.push(
-          dayjs(skipDays === 0 ? undefined : week[0]).add(
+        currentWeek.push({
+          date: dayjs(skipDays === 0 ? undefined : week[0]?.date).add(
             index + skipDays,
             'day',
           ),
-        ),
+          meetings: meetingSchedule[index],
+        }),
       );
     setWeek(currentWeek);
-    setSelectedDate(currentWeek[0]);
+    setSelectedDate(currentWeek[0]?.date);
+  };
+
+  const getMarginTop = (startTime: string) => {
+    const minsPixels = 116 / 4;
+    const existhours = [9, 10, 11, 12, 1, 2, 3, 4, 5, 6];
+    const existmins = [0, 15, 30, 45];
+    const splitTime = startTime?.split(':');
+    const extractHrs = Number(splitTime?.[0]);
+    const extractMins = Number(splitTime?.[1]?.slice(0, 2));
+    const hrsIndex = existhours?.findIndex(item => item === extractHrs);
+    let heightPixel = 0;
+    existhours?.map((_, index) => {
+      if (index <= hrsIndex) {
+        heightPixel = heightPixel + 116;
+      }
+    });
+    existmins?.map(item => {
+      if (item < extractMins) {
+        heightPixel = heightPixel + minsPixels;
+      }
+    });
+    return heightPixel;
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, paddingBottom: insets.bottom}}>
       <View style={[styles.header, {paddingTop: Math.max(insets.top, 20)}]}>
         <View style={styles.rowCenter}>
           <Image
@@ -72,7 +95,7 @@ const CalenderView = () => {
               />
             </TouchableOpacity>
             <Text style={{color: 'white'}}>
-              {dayjs(week?.[0])?.format('MMM DD, YYYY')}
+              {dayjs(week?.[0]?.date)?.format('MMM DD, YYYY')}
             </Text>
             <TouchableOpacity onPress={() => getWeekDay(7)}>
               <Image
@@ -124,17 +147,23 @@ const CalenderView = () => {
             style={[
               styles.dateBorder,
               {width: width},
-              selectedDate === item && {backgroundColor: '#f0ab43'},
+              selectedDate === item?.date && {backgroundColor: '#f0ab43'},
             ]}
-            onPress={() => setSelectedDate(item)}
+            onPress={() => setSelectedDate(item?.date)}
             key={index?.toString()}>
             <Text
-              style={[styles.date, selectedDate === item && {color: 'white'}]}>
-              {dayjs(item)?.format('D')}
+              style={[
+                styles.date,
+                selectedDate === item?.date && {color: 'white'},
+              ]}>
+              {dayjs(item?.date)?.format('D')}
             </Text>
             <Text
-              style={[styles.day, selectedDate === item && {color: 'white'}]}>
-              {dayjs(item)?.format('ddd')}
+              style={[
+                styles.day,
+                selectedDate === item?.date && {color: 'white'},
+              ]}>
+              {dayjs(item?.date)?.format('ddd')}
             </Text>
           </TouchableOpacity>
         ))}
@@ -144,7 +173,13 @@ const CalenderView = () => {
         <View style={{flexDirection: 'row'}}>
           <View style={[styles.timeHorizontal, {width: 60}]}>
             {times?.map((item, index) => (
-              <View style={styles.timeContainer} key={index?.toString()}>
+              <View
+                style={styles.timeContainer}
+                // onLayout={event => {
+                //   console.log('first', event?.nativeEvent?.layout?.height);
+                //   // height 116
+                // }}
+                key={index?.toString()}>
                 <Text style={styles.hours}>{item}</Text>
                 <Text style={styles.minutes}>15</Text>
                 <Text style={styles.minutes}>30</Text>
@@ -152,12 +187,25 @@ const CalenderView = () => {
               </View>
             ))}
           </View>
-          {week?.map((item, index) => (
+          {week?.map((item: any, index) => (
             <View
               style={[styles.timeHorizontal, {width: width}]}
               key={index?.toString()}>
-              {/* <Text style={styles.date}>{dayjs(item)?.format('D')}</Text>
-              <Text style={styles.day}>{dayjs(item)?.format('ddd')}</Text> */}
+              {item?.meetings?.map((meeting: any, meetingIndex: number) => (
+                <View
+                  style={[
+                    styles.meetingView,
+                    {marginTop: getMarginTop(meeting?.startTime)},
+                    {
+                      height:
+                        getMarginTop(meeting?.endTime) -
+                        getMarginTop(meeting?.startTime),
+                    },
+                  ]}
+                  key={meetingIndex?.toString()}>
+                  <Text style={{color: 'white'}}>{meeting?.title}</Text>
+                </View>
+              ))}
             </View>
           ))}
         </View>
@@ -199,6 +247,14 @@ const styles = StyleSheet.create({
     borderRightWidth: 0.5,
     borderColor: '#b3b3b3',
   },
+  meetingView: {
+    backgroundColor: '#ff2b6e',
+    position: 'absolute',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 6,
+  },
   timeContainer: {
     alignSelf: 'center',
   },
@@ -221,3 +277,27 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+const meetingSchedule = [
+  [
+    {startTime: '09:00 AM', endTime: '10:00 AM', title: 'Team Standup'},
+    {startTime: '1:30 PM', endTime: '2:30 PM', title: 'Project Update'},
+  ],
+  [
+    {startTime: '10:30 AM', endTime: '11:30 AM', title: 'Client Call'},
+    {startTime: '3:00 PM', endTime: '4:00 PM', title: 'Planning Session'},
+  ],
+  [
+    {startTime: '09:45 AM', endTime: '11:00 AM', title: 'Client Call'},
+    {startTime: '4:15 PM', endTime: '6:00 PM', title: 'Planning Session'},
+  ],
+  [
+    {startTime: '08:30 AM', endTime: '10:00 AM', title: 'Client Call'},
+    {startTime: '2:45 PM', endTime: '3:15 PM', title: 'Planning Session'},
+  ],
+  [
+    {startTime: '11:45 AM', endTime: '1:00 PM', title: 'Client Call'},
+    {startTime: '4:00 PM', endTime: '5:00 PM', title: 'Planning Session'},
+  ],
+  // Add more days and meetings as needed
+];
