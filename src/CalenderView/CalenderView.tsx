@@ -65,11 +65,12 @@ const CalenderView = () => {
         heightPixel = heightPixel + 116;
       }
     });
-    existmins?.map(item => {
-      if (item < extractMins) {
-        heightPixel = heightPixel + minsPixels;
-      }
-    });
+    // existmins?.map(item => {
+    //   if (item < extractMins) {
+    //     heightPixel = heightPixel + minsPixels;
+    //   }
+    // });
+    heightPixel = heightPixel + (extractMins / 60) * 116;
     return heightPixel;
   };
 
