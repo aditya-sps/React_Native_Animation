@@ -10,6 +10,7 @@ import {
 import React, {useEffect, useState} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import dayjs from 'dayjs';
+import CalenderColumn from './CalenderColumn';
 
 const CalenderView = () => {
   const insets = useSafeAreaInsets();
@@ -170,7 +171,7 @@ const CalenderView = () => {
         ))}
       </View>
 
-      <ScrollView>
+      <ScrollView bounces={false}>
         <View style={{flexDirection: 'row'}}>
           <View style={[styles.timeHorizontal, {width: 60}]}>
             {times?.map((item, index) => (
@@ -178,7 +179,7 @@ const CalenderView = () => {
                 style={styles.timeContainer}
                 // onLayout={event => {
                 //   console.log('first', event?.nativeEvent?.layout?.height);
-                //   // height 116
+                //   // height 116 for android and 108 for ios
                 // }}
                 key={index?.toString()}>
                 <Text style={styles.hours}>{item}</Text>
@@ -189,25 +190,13 @@ const CalenderView = () => {
             ))}
           </View>
           {week?.map((item: any, index) => (
-            <View
-              style={[styles.timeHorizontal, {width: width}]}
-              key={index?.toString()}>
-              {item?.meetings?.map((meeting: any, meetingIndex: number) => (
-                <View
-                  style={[
-                    styles.meetingView,
-                    {marginTop: getMarginTop(meeting?.startTime)},
-                    {
-                      height:
-                        getMarginTop(meeting?.endTime) -
-                        getMarginTop(meeting?.startTime),
-                    },
-                  ]}
-                  key={meetingIndex?.toString()}>
-                  <Text style={{color: 'white'}}>{meeting?.title}</Text>
-                </View>
-              ))}
-            </View>
+            <CalenderColumn
+              item={item}
+              key={index?.toString()}
+              weekData={week}
+              setWeek={setWeek}
+              columnIndex={index}
+            />
           ))}
         </View>
       </ScrollView>
@@ -248,14 +237,6 @@ const styles = StyleSheet.create({
     borderRightWidth: 0.5,
     borderColor: '#b3b3b3',
   },
-  meetingView: {
-    backgroundColor: '#ff2b6e',
-    position: 'absolute',
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 6,
-  },
   timeContainer: {
     alignSelf: 'center',
   },
@@ -282,23 +263,23 @@ const styles = StyleSheet.create({
 const meetingSchedule = [
   [
     {startTime: '09:00 AM', endTime: '10:00 AM', title: 'Team Standup'},
-    {startTime: '1:30 PM', endTime: '2:30 PM', title: 'Project Update'},
+    {startTime: '01:30 PM', endTime: '02:30 PM', title: 'Project Update'},
   ],
   [
     {startTime: '10:30 AM', endTime: '11:30 AM', title: 'Client Call'},
-    {startTime: '3:00 PM', endTime: '4:00 PM', title: 'Planning Session'},
+    {startTime: '03:00 PM', endTime: '04:00 PM', title: 'Planning Session'},
   ],
   [
     {startTime: '09:45 AM', endTime: '11:00 AM', title: 'Client Call'},
-    {startTime: '4:15 PM', endTime: '6:00 PM', title: 'Planning Session'},
+    {startTime: '04:15 PM', endTime: '06:00 PM', title: 'Planning Session'},
   ],
   [
     {startTime: '08:30 AM', endTime: '10:00 AM', title: 'Client Call'},
-    {startTime: '2:45 PM', endTime: '3:15 PM', title: 'Planning Session'},
+    {startTime: '02:45 PM', endTime: '03:15 PM', title: 'Planning Session'},
   ],
   [
-    {startTime: '11:45 AM', endTime: '1:00 PM', title: 'Client Call'},
-    {startTime: '4:00 PM', endTime: '5:00 PM', title: 'Planning Session'},
+    {startTime: '11:45 AM', endTime: '01:00 PM', title: 'Client Call'},
+    {startTime: '04:00 PM', endTime: '05:00 PM', title: 'Planning Session'},
   ],
   // Add more days and meetings as needed
 ];
