@@ -31,6 +31,14 @@ const CalenderMeeting = ({
   const layoutViewHeight = Platform.OS === 'android' ? 116 : 108;
 
   useEffect(() => {
+    if (transitionX.value !== 0 && transitionY.value !== 0) {
+      transitionX.value = 0;
+      transitionY.value = 0;
+      scale.value = 1;
+    }
+  }, [weekData]);
+
+  useEffect(() => {
     if (meeting) {
       const difference = dayjs(meeting?.endTime, 'hh:mm A').diff(
         dayjs(meeting?.startTime, 'hh:mm A'),
