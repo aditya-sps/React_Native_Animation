@@ -23,6 +23,7 @@ import MovingButton from './src/MovingButton/MovingButton';
 import TopNavigator from './src/TopNavigation/TopNavigator';
 import DragandDrop from './src/DragandDrop/DragandDrop';
 import CalenderView from './src/CalenderView/CalenderView';
+import TinderSwipe from './src/TinderSwipe/TinderSwipe';
 
 function App(): React.JSX.Element {
   const [visible, setVisible] = useState(false);
@@ -72,7 +73,9 @@ function App(): React.JSX.Element {
 
           {/* <DragandDrop /> */}
 
-          <CalenderView />
+          {/* <CalenderView /> */}
+
+          <TinderSwipe />
         </View>
       </GestureHandlerRootView>
     </SafeAreaProvider>
