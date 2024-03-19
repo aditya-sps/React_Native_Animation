@@ -73,9 +73,9 @@ function App(): React.JSX.Element {
 
           {/* <DragandDrop /> */}
 
-          {/* <CalenderView /> */}
+          <CalenderView />
 
-          <TinderSwipe />
+          {/* <TinderSwipe /> */}
         </View>
       </GestureHandlerRootView>
     </SafeAreaProvider>
