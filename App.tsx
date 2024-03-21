@@ -24,6 +24,8 @@ import TopNavigator from './src/TopNavigation/TopNavigator';
 import DragandDrop from './src/DragandDrop/DragandDrop';
 import CalenderView from './src/CalenderView/CalenderView';
 import TinderSwipe from './src/TinderSwipe/TinderSwipe';
+import {NavigationContainer} from '@react-navigation/native';
+import Navigation from './Navigation';
 
 function App(): React.JSX.Element {
   const [visible, setVisible] = useState(false);
@@ -35,11 +37,12 @@ function App(): React.JSX.Element {
 
   return (
     <SafeAreaProvider>
-      <GestureHandlerRootView style={{flex: 1}}>
-        <View style={{flex: 1}}>
-          {/* <SwipeFlatlist /> */}
+      <NavigationContainer>
+        <GestureHandlerRootView style={{flex: 1}}>
+          <View style={{flex: 1}}>
+            {/* <SwipeFlatlist /> */}
 
-          {/* <BottomTab
+            {/* <BottomTab
             visible={visible}
             onClose={() => setVisible(false)}
             height={400}>
@@ -49,35 +52,37 @@ function App(): React.JSX.Element {
             <Text onPress={() => setVisible(true)}>Touch</Text>
           </View> */}
 
-          {/* <DrawerScreen /> */}
+            {/* <DrawerScreen /> */}
 
-          {/* <Slider /> */}
+            {/* <Slider /> */}
 
-          {/* <ImageCarousel /> */}
+            {/* <ImageCarousel /> */}
 
-          {/* <CircularProgress /> */}
+            {/* <CircularProgress /> */}
 
-          {/* <FloatingTextInput
+            {/* <FloatingTextInput
             value={value}
             setValue={setValue}
             placeholder={'First Name'}
           /> */}
 
-          {/* <CustomCurve color={'#f59e42'} /> */}
+            {/* <CustomCurve color={'#f59e42'} /> */}
 
-          {/* <ScrollHeader /> */}
+            {/* <ScrollHeader /> */}
 
-          {/* <MovingButton /> */}
+            {/* <MovingButton /> */}
 
-          {/* <TopNavigator /> */}
+            {/* <TopNavigator /> */}
 
-          {/* <DragandDrop /> */}
+            {/* <DragandDrop /> */}
 
-          <CalenderView />
+            {/* <CalenderView /> */}
 
-          {/* <TinderSwipe /> */}
-        </View>
-      </GestureHandlerRootView>
+            {/* <TinderSwipe /> */}
+            <Navigation />
+          </View>
+        </GestureHandlerRootView>
+      </NavigationContainer>
     </SafeAreaProvider>
   );
 }

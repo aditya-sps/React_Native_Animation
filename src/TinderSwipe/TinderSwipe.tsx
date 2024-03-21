@@ -1,10 +1,12 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import AnimateImage from './AnimateImage';
+import {useNavigation} from '@react-navigation/native';
 
 const TinderSwipe = () => {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
 
   const [data, setData] = useState([
     {
@@ -37,22 +39,27 @@ const TinderSwipe = () => {
     <View
       style={{
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         paddingTop: insets.top,
         paddingBottom: insets.bottom,
       }}>
-      {data?.map((item, index) => {
-        return (
-          <AnimateImage
-            key={item?.id}
-            uri={item.uri}
-            index={index}
-            data={data}
-            setData={setData}
-          />
-        );
-      })}
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={{alignSelf: 'flex-start', marginLeft: 20}}>
+        <Text>Go Back</Text>
+      </TouchableOpacity>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        {data?.map((item, index) => {
+          return (
+            <AnimateImage
+              key={item?.id}
+              uri={item.uri}
+              index={index}
+              data={data}
+              setData={setData}
+            />
+          );
+        })}
+      </View>
     </View>
   );
 };
